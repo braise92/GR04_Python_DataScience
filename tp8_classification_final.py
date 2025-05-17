@@ -1,7 +1,6 @@
-
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import matplotlib.pyplot as plt
 import yfinance as yf
 import pandas as pd
@@ -11,6 +10,7 @@ from transformers import BertTokenizer, BertForSequenceClassification
 from collections import defaultdict
 from matplotlib.lines import Line2D
 import glob
+from bisect import bisect_left
 
 companies = {
     "Apple": "AAPL", "Microsoft": "MSFT", "Amazon": "AMZN", "Alphabet": "GOOGL", "Meta": "META",
@@ -25,7 +25,6 @@ companies = {
     "Tata Consultancy Services": "TCS.NS"
 }
 
-
 def log(message):
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
@@ -38,7 +37,6 @@ def convert_utc_to_ny(timestamp_str):
     ny_dt = utc_dt.astimezone(ny_tz)
     return ny_dt.replace(minute=0, second=0, microsecond=0)
 
-# 1.1 Extraction
 def get_texts_timestamps(news_data):
     texts = []
     timestamps = []
@@ -50,7 +48,6 @@ def get_texts_timestamps(news_data):
             timestamps.append(ts)
     return texts, timestamps
 
-# 1.2 Analyse de sentiments
 def get_sentiments(model_path, texts):
     log(f"Chargement du modèle depuis {model_path}")
     tokenizer = BertTokenizer.from_pretrained("ProsusAI/finbert")
@@ -66,20 +63,48 @@ def get_sentiments(model_path, texts):
         sentiments.append(pred)
     return sentiments
 
-# 1.3 Alignement timestamps
 def align_timestamps(timestamps):
+    from pandas.tseries.holiday import USFederalHolidayCalendar
+
     aligned = []
+    ny_tz = pytz.timezone("America/New_York")
+    calendar = USFederalHolidayCalendar()
+    holidays = set(h.date() for h in calendar.holidays(start="2025-01-01", end="2025-12-31"))
+
     for ts in timestamps:
-        time = ts.time()
-        if datetime.strptime("09:30", "%H:%M").time() <= time < datetime.strptime("15:00", "%H:%M").time():
-            aligned.append(ts.replace(minute=0, second=0, microsecond=0))
-        elif time >= datetime.strptime("15:00", "%H:%M").time():
-            aligned.append(ts.replace(hour=15, minute=0, second=0, microsecond=0))
+        ts = ts.astimezone(ny_tz)
+        local_date = ts.date()
+        local_time = ts.time()
+        weekday = ts.weekday()  # 0=lundi, 6=dimanche
+
+        # Cas 1 : weekend → reculer au vendredi précédent
+        if weekday == 5:  # samedi
+            target = ts - timedelta(days=1)
+        elif weekday == 6:  # dimanche
+            target = ts - timedelta(days=2)
+        # Cas 2 : jour férié
+        elif local_date in holidays:
+            target = ts - timedelta(days=1)
+            while target.date() in holidays or target.weekday() >= 5:
+                target -= timedelta(days=1)
+        # Cas 3 : jour de marché
         else:
-            aligned.append((ts - timedelta(days=1)).replace(hour=15, minute=0, second=0, microsecond=0))
+            if datetime.strptime("09:30", "%H:%M").time() <= local_time < datetime.strptime("15:00", "%H:%M").time():
+                aligned.append(ts.replace(minute=0, second=0, microsecond=0))
+                continue
+            elif local_time >= datetime.strptime("15:00", "%H:%M").time():
+                aligned.append(ts.replace(hour=15, minute=0, second=0, microsecond=0))
+                continue
+            else:
+                target = ts - timedelta(days=1)
+
+        # S'assurer que le timestamp aligné est localisé New York
+        aligned_dt = datetime.combine(target.date(), time(15, 0))
+        aligned.append(ny_tz.localize(aligned_dt))
+
     return aligned
 
-# 1.4 Visualisation
+
 def plot_comparison(df, sentiments_a, sentiments_b, timestamps, title_a, title_b):
     aligned_ts = align_timestamps(timestamps)
 
@@ -92,23 +117,30 @@ def plot_comparison(df, sentiments_a, sentiments_b, timestamps, title_a, title_b
     grouped_a = group_by_time(aligned_ts, sentiments_a)
     grouped_b = group_by_time(aligned_ts, sentiments_b)
 
-    def plot_sub(ax, grouped, title):
+    def plot_sub(df, ax, grouped, title):
         df = df.set_index("Datetime" if "Datetime" in df.columns else df.columns[0])
+        index_list = df.index.to_list()
         ax.plot(df.index, df["Close"], label="Price", color="black")
         colors = {0: "red", 1: "orange", 2: "green"}
         offset = 0.5
+
         for t, s_list in grouped.items():
-            for i, s in enumerate(s_list):
-                if t in df.index:
-                    price = df.loc[t]["Close"]
-                    ax.scatter(t, price + i * offset, color=colors[s], s=60)
+            pos = bisect_left(index_list, t)
+            if pos == len(index_list):
+                continue
+            nearest = index_list[pos] if abs(index_list[pos] - t) <= timedelta(minutes=90) else None
+            if nearest:
+                price = df.loc[nearest]["Close"]
+                for i, s in enumerate(s_list):
+                    ax.scatter(nearest, price + i * offset, color=colors[s], s=60)
+
         ax.set_title(title)
         ax.set_ylabel("Price")
         ax.grid(True)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), sharex=True)
-    plot_sub(ax1, grouped_a, title_a)
-    plot_sub(ax2, grouped_b, title_b)
+    plot_sub(df, ax1, grouped_a, title_a)
+    plot_sub(df, ax2, grouped_b, title_b)
 
     legend_elements = [
         Line2D([0], [0], marker='o', color='w', label='Positive', markerfacecolor='green', markersize=10),
@@ -120,13 +152,13 @@ def plot_comparison(df, sentiments_a, sentiments_b, timestamps, title_a, title_b
     plt.tight_layout()
     plt.show()
 
-# 1.5 Intégration
 def run_analysis(company, json_path, model_path_a, model_path_b):
     log(f"Téléchargement des prix pour {company}")
     ticker_symbol = companies.get(company, company)
-    ticker = yf.Ticker(ticker_symbol)    
-    df = ticker.history(start="2025-01-01", interval="60m")
-    df = df.reset_index() if 'Datetime' not in df.columns else df    
+    ticker = yf.Ticker(ticker_symbol)
+    df = ticker.history(start="2025-01-01", end="2025-04-15", interval="60m")
+    df = df.reset_index() if 'Datetime' not in df.columns else df
+
     log(f"Chargement des news depuis {json_path}")
     with open(json_path, 'r', encoding='utf-8') as f:
         news_data = json.load(f)
@@ -134,7 +166,6 @@ def run_analysis(company, json_path, model_path_a, model_path_b):
     texts, timestamps = get_texts_timestamps(news_data)
     sentiments_a = get_sentiments(model_path_a, texts)
     sentiments_b = get_sentiments(model_path_b, texts)
-
     plot_comparison(df, sentiments_a, sentiments_b, timestamps, "Model A", "Model B")
 
 def count_news_per_company(json_dir):
@@ -152,8 +183,9 @@ if __name__ == "__main__":
     print("Entreprises avec le plus de news :")
     for company, (count, _) in news_counts.items():
         print(f"{company}: {count} news")
-    top_10_companies = list(news_counts.items())[:10]
-    for company, (_, path) in top_10_companies:
+
+    top_2_companies = list(news_counts.items())[:2]
+    for company, (_, path) in top_2_companies:
         log(f"Analyse pour {company}")
         run_analysis(
             company=company,
