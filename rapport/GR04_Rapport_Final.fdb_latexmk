@@ -1,12 +1,12 @@
 # Fdb version 4
-["pdflatex"] 1747586020.002 "c:/Eliott/Eliott/Dauphine/Python et data science/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex" "GR04_Rapport_Final.pdf" "GR04_Rapport_Final" 1747586023.0593 2
-  "Dauphine.jpg" 1747561642 8080 47ae98b08af50bfa7a5ed8219b309131 ""
-  "GR04_Rapport_Final.aux" 1747586022 3648 abcd3e59eff6d562ff279d6cdf59bdcf "pdflatex"
-  "GR04_Rapport_Final.out" 1747586022 1368 1ad293b5c6f2e1a285c16cc7c9baf26b "pdflatex"
-  "GR04_Rapport_Final.tex" 1747579171 24470 e8b42d8f2fb885dd891027733eb77f51 ""
-  "GR04_Rapport_Final.toc" 1747586022 983 ec609dea060080fa2e4e1e9f1592f38b "pdflatex"
-  "Model Comparison.png" 1747565564 91465 06c316bee3be47d69a168083ebc2655a ""
-  "c:/Eliott/Eliott/Dauphine/Python et data science/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex" 1747579171 24470 e8b42d8f2fb885dd891027733eb77f51 ""
+["pdflatex"] 1747591413.80214 "c:/Eliott/Eliott/Dauphine/Python et data science/V2/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex" "GR04_Rapport_Final.pdf" "GR04_Rapport_Final" 1747591417.41002 2
+  "Dauphine.jpg" 1747591127 8080 47ae98b08af50bfa7a5ed8219b309131 ""
+  "GR04_Rapport_Final.aux" 1747591416 3648 abcd3e59eff6d562ff279d6cdf59bdcf "pdflatex"
+  "GR04_Rapport_Final.out" 1747591416 1368 1ad293b5c6f2e1a285c16cc7c9baf26b "pdflatex"
+  "GR04_Rapport_Final.tex" 1747591127 24470 e8b42d8f2fb885dd891027733eb77f51 ""
+  "GR04_Rapport_Final.toc" 1747591416 983 ec609dea060080fa2e4e1e9f1592f38b "pdflatex"
+  "Model Comparison.png" 1747591127 91465 06c316bee3be47d69a168083ebc2655a ""
+  "c:/Eliott/Eliott/Dauphine/Python et data science/V2/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex" 1747591127 24470 e8b42d8f2fb885dd891027733eb77f51 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1744844196 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1744845526 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1744844959 3584 402da0b29eafbad07963b1224b222f18 ""
@@ -143,8 +143,8 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1744851921 5567782 00e0fb0c7cc9c7361a97e3a2230dfbe7 ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1744852397 3561284 dbfc7bde62e4ae8f87dad4b2f41c1bc5 ""
   "c:/texlive/2025/texmf.cnf" 1744851875 713 e69b156964470283e0530f5060668171 ""
-  "dendogramme.png" 1747579133 19004 b037f7fb676e76568f6477d9607b61a5 ""
-  "t_sne.png" 1747579122 22536 4482f9fc928740daad96a6691264589c ""
+  "dendogramme.png" 1747591127 19004 b037f7fb676e76568f6477d9607b61a5 ""
+  "t_sne.png" 1747591127 22536 4482f9fc928740daad96a6691264589c ""
   (generated)
   "GR04_Rapport_Final.aux"
   "GR04_Rapport_Final.log"
