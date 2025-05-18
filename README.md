@@ -43,3 +43,5 @@ Pour exécuter l’analyse complète :
 - **Option 1** : lancer le script principal
   ```bash
   python main.py
+- **Option 2** : Ouvrir et exécuter les cellules du notebook main.ipynb
+
