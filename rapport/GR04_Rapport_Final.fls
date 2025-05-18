@@ -1,8 +1,8 @@
-PWD c:/Eliott/Eliott/Dauphine/Python et data science/GR04_Python_DataScience/rapport
+PWD c:/Eliott/Eliott/Dauphine/Python et data science/V2/GR04_Python_DataScience/rapport
 INPUT c:/texlive/2025/texmf.cnf
 INPUT c:/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Eliott/Eliott/Dauphine/Python et data science/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex
+INPUT c:/Eliott/Eliott/Dauphine/Python et data science/V2/GR04_Python_DataScience/rapport/GR04_Rapport_Final.tex
 OUTPUT GR04_Rapport_Final.log
 INPUT c:/texlive/2025/texmf-dist/tex/latex/base/article.cls
 INPUT c:/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -169,6 +169,9 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT ./GR04_Rapport_Final.aux
+INPUT ./GR04_Rapport_Final.aux
+INPUT GR04_Rapport_Final.aux
 OUTPUT GR04_Rapport_Final.aux
 INPUT c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
