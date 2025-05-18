@@ -5,7 +5,7 @@ import os
 
 # Charger les news existantes depuis un fichier local
 def load_existing_news(company_name):
-    file_path = os.path.join("News", f"{company_name.lower().replace(' ', '_')}_news.json")
+    file_path = f"data/news/JSONS/{company_name}_news.json"
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -26,32 +26,31 @@ def get_news_by_date(company_name, api_key):
         "from": first_day,
         "to": last_day,
     }
+def get_three_most_recent_news(company_name):
+    file_path = f"data/news/JSONS/{company_name}_news.json"
+    if not os.path.exists(file_path):
+        print(f"Aucun fichier trouvé pour {company_name}")
+        return []
 
-    response = requests.get(url, params=params)
-    news_dict = {}
+    with open(file_path, "r", encoding="utf-8") as f:
+        news_data = json.load(f)
 
-    if response.status_code == 200:
-        articles = response.json().get("articles", [])
+    all_articles = []
+    for articles in news_data.values():  # Loop directly through lists of articles
         for article in articles:
-            title = article.get("title", "")
-            description = article.get("description", "")
-            published_at = article.get("publishedAt", "")
-            source_name = article.get("source", {}).get("name", "")
+            published_at = article.get("publishedAt")
+            if published_at:
+                try:
+                    dt = datetime.fromisoformat(published_at.replace("Z", "+00:00"))  # Convert to datetime
+                except ValueError:
+                    dt = datetime.min
+                all_articles.append((dt, article))
 
-            if company_name.lower() in (title or "").lower() or company_name.lower() in (description or "").lower():
-                date_str = published_at.split("T")[0]
-                if date_str not in news_dict:
-                    news_dict[date_str] = []
-                news_dict[date_str].append({
-                    "title": title,
-                    "description": description,
-                    "source": source_name,
-                    "published_at": published_at
-                })
-    else:
-        print(f"Erreur {response.status_code} : {response.text}")
+    # Sort articles by datetime (most recent first)
+    all_articles.sort(key=lambda x: x[0], reverse=True)
 
-    return news_dict
+    # Return the top 3 articles only
+    return [article for _, article in all_articles[:3]]
 
 # Mettre à jour les news d'une entreprise et les sauvegarder localement
 def update_news(company_name, api_key):
@@ -100,16 +99,16 @@ if __name__ == '__main__':
         "AMD": "AMD",
         "Qualcomm": "QCOM",
         "Cisco": "CSCO",
-        "JP Morgan": "JPM",
-        "Goldman Sachs": "GS",
+        "JP_Morgan": "JPM",
+        "Goldman_Sachs": "GS",
         "Visa": "V",
-        "Johnson & Johnson": "JNJ",
+        "Johnson_& _Johnson": "JNJ",
         "Pfizer": "PFE",
         "ExxonMobil": "XOM",
         "ASML": "ASML.AS",
         "SAP": "SAP.DE",
         "Siemens": "SIE.DE",
-        "Louis Vuitton (LVMH)": "MC.PA",
+        "Louis_Vuitton_(LVMH)": "MC.PA",
         "TotalEnergies": "TTE.PA",
         "Shell": "SHEL.L",
         "Baidu": "BIDU",
@@ -120,8 +119,8 @@ if __name__ == '__main__':
         "SoftBank": "9984.T",
         "Nintendo": "NTDOY",
         "Hyundai": "HYMTF",
-        "Reliance Industries": "RELIANCE.NS",
-        "Tata Consultancy Services": "TCS.NS"
+        "Reliance_Industries": "RELIANCE.NS",
+        "Tata_Consultancy_Services": "TCS.NS"
     }
 
     for company in companies:
