@@ -1,6 +1,6 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[Bigl=3cm,Bigl=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{listings}
@@ -23,7 +23,6 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{comment}
-\usepackage{amssymb}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -59,7 +58,7 @@
 	
 
     
-    {Hayder Bouaziz - Eliott Brézet - Jianhyan Dong}
+    {Hayder Bouaziz - Eliott Brézet - Jianyan Dong}
     \hfill
 	{\large Année 2024/2025 \par}
 
@@ -238,7 +237,7 @@ Les performances comparatives des modèles testés sont synthétisées dans le t
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
 \textbf{Modèle} & \textbf{Accuracy} & \textbf{Recall} & \textbf{F1-score}\\
 \hline
@@ -321,9 +320,9 @@ Les performances moyennes des modèles, mesurées via les métriques MAE et RMSE
 Random Forest Regressor & 0.1393 & 0.1712\\
 XGBoost Regressor & 0.1541 & 0.1870\\
 KNN Regressor & 0.1724 & 0.2054\\
-MLP & 0.0223 & 0.0302\\
-RNN & 0.0219 & 0.0296\\
-LSTM & \textbf{0.0195} & \textbf{0.0268}\\
+MLP & 8.2687 & 10.7983\\
+RNN & 5.9221 & 8.0051\\
+LSTM & 6.9813 & 9.3939\\
 \hline
 \end{tabular}
 \caption{Comparaison des performances moyennes des modèles de régression (Machine Learning vs Deep Learning)}
@@ -332,9 +331,9 @@ LSTM & \textbf{0.0195} & \textbf{0.0268}\\
 
 Ces résultats montrent clairement que :
 \begin{itemize}
-    \item Le modèle \textbf{LSTM}, grâce à sa capacité à capturer des dépendances temporelles complexes, affiche les meilleures performances globales.
-    \item Parmi les méthodes classiques, le \textbf{Random Forest} se distingue par ses performances robustes et relativement proches de celles des modèles Deep Learning.
-    \item Le modèle \textbf{KNN}, malgré sa simplicité, obtient des résultats moins précis en raison de sa difficulté à généraliser efficacement sur les séries temporelles financières.
+    \item Les modèles classiques de Machine Learning (\textbf{Random Forest}, \textbf{XGBoost}, \textbf{KNN}) surpassent nettement les modèles de Deep Learning sur ce jeu de données, avec des MAE et RMSE bien plus faibles.
+    \item Le \textbf{Random Forest} obtient les meilleures performances globales, suivi de près par XGBoost et KNN.
+    \item Les modèles de Deep Learning (MLP, RNN, LSTM) affichent des erreurs beaucoup plus élevées, ce qui peut s’expliquer par un manque de données, un surapprentissage ou des hyperparamètres non optimaux dans ce contexte.
 \end{itemize}
 
 Des visualisations graphiques ont permis de vérifier qualitativement la précision des modèles en comparant les prédictions et les valeurs réelles sur les données test (voir figure~\ref{fig:regression_comparison}).
@@ -498,6 +497,8 @@ Plusieurs pistes pourraient être envisagées pour prolonger ce travail. Parmi e
 
 Ce projet s’inscrit ainsi dans une démarche de data science appliquée à la finance, mêlant rigueur analytique et pragmatisme opérationnel. Il constitue une base solide pour de futures explorations dans le domaine de la prise de décision automatisée.
 
+\newpage
+\section{Annexes}
 \printbibliography
 
 \end{document}

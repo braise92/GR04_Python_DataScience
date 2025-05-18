@@ -3,7 +3,7 @@
 ## 🎯 Objectif  
 Mettre en place un pipeline automatisé permettant d’agréger quotidiennement des signaux issus de modèles de **clustering**, **classification**, **régression** et **traitement du langage naturel**, afin de générer des **recommandations d’investissement** sur le marché des actions.
 
-Ce projet consolide l’ensemble des Travaux Pratiques (TP) réalisés durant le cours.
+Ce projet consolide l’ensemble des Travaux Pratiques (TP) réalisés durant le cours. Le rapport se trouve dans le fichier GR04_Rapport_Final.pdf dans la branche main.
 
 ---
 
