@@ -28,6 +28,10 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
+% Ajouter biblatex pour la bibliographie numérotée
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{references.bib}
+
 \pagestyle{fancy}
 %\fancyhf{}
 \rfoot{\textit{Projet}}
@@ -114,11 +118,11 @@ Dans cette perspective, il nous a semblé pertinent de nous intéresser à quelq
 
 Les travaux récents en data science appliquée à la finance mettent en évidence l’intérêt de combiner plusieurs sources de données et types de modèles pour améliorer la qualité des recommandations d’investissement. Deux axes principaux ressortent : l’intégration de données non structurées (notamment textuelles) dans l’analyse financière, et l’agrégation de signaux issus de modèles hétérogènes.
 
-Un premier article de Zhang et al. (2020), \textit{“Stock Movement Prediction from Tweets and Historical Prices”}, propose une approche combinée où les sentiments extraits de messages Twitter sont utilisés en complément de modèles temporels classiques. Leur étude montre que les performances de prédiction sont significativement améliorées lorsque les signaux émotionnels sont intégrés aux indicateurs de prix, ce qui justifie pleinement l’intérêt de l’analyse de sentiments dans un pipeline de recommandation.
+Un premier article de Xu et al. (2018)~\cite{xu2018} propose une approche combinée où les sentiments extraits de messages Twitter sont utilisés en complément de modèles temporels classiques. Leur étude montre que les performances de prédiction sont significativement améliorées lorsque les signaux émotionnels sont intégrés aux indicateurs de prix, ce qui justifie pleinement l’intérêt de l’analyse de sentiments dans un pipeline de recommandation.
 
-Par ailleurs, le travail de Ding et al. (2015), \textit{“Deep Learning for Event-Driven Stock Prediction”}, met en avant une architecture reposant sur un modèle d’apprentissage profond pour détecter des événements clés dans les actualités économiques, et anticiper leur impact sur les cours. L’approche repose sur une hiérarchisation des signaux textuels, montrant que certaines nouvelles ont un pouvoir prédictif supérieur selon leur nature ou leur contexte.
+Par ailleurs, le travail de Ding et al. (2015)~\cite{ding2015} met en avant une architecture reposant sur un modèle d’apprentissage profond pour détecter des événements clés dans les actualités économiques, et anticiper leur impact sur les cours. L’approche repose sur une hiérarchisation des signaux textuels, montrant que certaines nouvelles ont un pouvoir prédictif supérieur selon leur nature ou leur contexte.
 
-Enfin, dans une perspective plus proche de notre projet, l’article de Jiang et Liang (2022), \textit{“A Hybrid Ensemble Framework for Stock Market Prediction”}, propose une méthode d’agrégation de modèles de classification, de régression et d’analyse de texte pour produire une décision finale. Leur stratégie repose sur un score pondéré attribué à chaque modèle selon sa performance historique, ce qui rejoint notre propre réflexion sur l’agrégation des signaux.
+Enfin, dans une perspective plus proche de notre projet, l’article de Wu et al. (2023)~\cite{wu2023} propose une méthode d’agrégation de modèles de classification, de régression et d’analyse de texte pour produire une décision finale. Leur stratégie repose sur un score pondéré attribué à chaque modèle selon sa performance historique, ce qui rejoint notre propre réflexion sur l’agrégation des signaux.
 
 Ces travaux confortent l’idée que la combinaison intelligente de signaux hétérogènes — structurels, temporels et sémantiques — peut permettre d'améliorer sensiblement la robustesse des décisions d’investissement. Notre projet s’inscrit dans cette lignée, en cherchant à proposer un cadre cohérent et opérationnel pour leur mise en œuvre conjointe.
 
@@ -236,13 +240,13 @@ Les performances comparatives des modèles testés sont synthétisées dans le t
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Modèle} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score}\\
+\textbf{Modèle} & \textbf{Accuracy} & \textbf{Recall} & \textbf{F1-score}\\
 \hline
-Random Forest & \textbf{0.72} & \textbf{0.71} & \textbf{0.68} & \textbf{0.69}\\
-XGBoost & 0.69 & 0.68 & 0.66 & 0.67\\
-KNN & 0.64 & 0.61 & 0.60 & 0.60\\
-SVM & 0.67 & 0.65 & 0.63 & 0.64\\
-Régression Logistique & 0.65 & 0.63 & 0.61 & 0.62\\
+Random Forest & 0.54 & 0.43 & 0.41\\
+XGBoost & \textbf{0.60} & \textbf{0.53}  & \textbf{0.54}\\
+KNN & 0.40 & 0.39  & 0.39\\
+SVM & 0.51 & 0.37  & 0.30\\
+Régression Logistique &  0.50 & 0.36 & 0.28\\
 \hline
 \end{tabular}
 \caption{Performances comparées des algorithmes de classification}
@@ -255,7 +259,7 @@ Pour compléter l’analyse, nous avons utilisé les valeurs SHAP afin d’inter
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{Model Comparison.png}
+    \includegraphics[width=0.9\textwidth]{shap.png}
     \caption{Importance des indicateurs techniques selon l'analyse SHAP (Random Forest).}
     \label{fig:shap_classification}
 \end{figure}
@@ -272,162 +276,215 @@ Plusieurs pistes pourraient encore renforcer la qualité du modèle :
     \item Utilisation d'autres approches d’interprétabilité pour compléter l’analyse SHAP.
 \end{itemize}
 
-
 \section{Prédiction de rendement à J+1}
 
 \subsection*{Objectif}
 
-Cette étape vise à prévoir précisément la valeur de clôture d'une action pour le lendemain (J+1), sur la base des historiques de prix disponibles. À la différence de la classification, qui fournit une recommandation qualitative, la régression apporte une estimation chiffrée du rendement attendu, enrichissant ainsi la décision finale du pipeline.
+L’objectif de cette étape est de prédire précisément la valeur de clôture des actions à l'horizon du jour suivant (J+1). Cette approche quantitative complète la classification qualitative du pipeline, fournissant une estimation chiffrée essentielle à une prise de décision financière rigoureuse.
 
 \subsection*{Méthodes utilisées}
 
-Deux grandes catégories d'approches ont été explorées et comparées :
+Deux grandes familles de méthodes prédictives ont été mises en œuvre et comparées : 
 
-\textbf{Modèles classiques (Machine Learning)} :
+\paragraph{Modèles classiques (Machine Learning) – TP4} :  
+Pour chaque entreprise, nous avons utilisé les prix historiques de clôture avec une fenêtre glissante de 30 jours comme features pour prédire le prix suivant. Les modèles évalués étaient :
+
 \begin{itemize}
-    \item Régression linéaire
-    \item K-Nearest Neighbors (KNN)
-    \item Random Forest Regressor
-    \item XGBoost Regressor
+    \item Random Forest Regressor,
+    \item XGBoost Regressor,
+    \item K-Nearest Neighbors (KNN) Regressor.
 \end{itemize}
 
-Pour ces modèles, une normalisation des données avec un MinMaxScaler a été réalisée. L'optimisation des hyperparamètres s'est effectuée par une recherche systématique avec GridSearchCV afin de garantir les meilleures performances possibles.
+Les données ont été normalisées via \texttt{MinMaxScaler} et divisées en ensembles d'entraînement (80\%) et de test (20\%).
 
-\textbf{Modèles avancés (Deep Learning)} :
+\paragraph{Modèles avancés (Deep Learning) – TP5} :  
+Nous avons implémenté trois modèles Deep Learning sous TensorFlow en utilisant les mêmes données et prétraitements pour assurer une comparaison directe avec les modèles ML classiques :
+
 \begin{itemize}
-    \item Multi-Layer Perceptron (MLP)
-    \item Recurrent Neural Network (RNN)
-    \item Long Short-Term Memory (LSTM)
+    \item Multi-Layer Perceptron (MLP),
+    \item Recurrent Neural Network (RNN),
+    \item Long Short-Term Memory (LSTM).
 \end{itemize}
 
-Ces réseaux ont été développés avec TensorFlow, en variant notamment le nombre de couches cachées, le taux de dropout et les fonctions d'activation. Plusieurs configurations ont été testées afin de sélectionner la meilleure architecture en termes de stabilité et précision des prédictions.
+Ces modèles ont été optimisés en explorant différents hyperparamètres (nombre de neurones par couche, taux de dropout, fonctions d’activation : ReLU, tanh), avec un entraînement utilisant l’optimizer Adam sur 20 epochs.
 
 \subsection*{Résultats et interprétations}
 
-Les modèles ont été comparés principalement sur deux métriques : le RMSE et le MAE. Les principaux résultats sont présentés dans le tableau~\ref{tab:regression_perf}.
+Les performances moyennes des modèles, mesurées via les métriques MAE et RMSE sur l'ensemble des entreprises étudiées, sont présentées dans le tableau~\ref{tab:regression_results}.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Modèle} & \textbf{RMSE moyen} & \textbf{MAE moyen} \\
+\textbf{Modèle} & \textbf{MAE moyen} & \textbf{RMSE moyen}\\
 \hline
-Régression linéaire & 2.35 & 1.72 \\
-KNN Regressor & 1.98 & 1.48 \\
-Random Forest & 1.76 & 1.29 \\
-XGBoost Regressor & \textbf{1.62} & \textbf{1.14} \\
-MLP & 1.81 & 1.33 \\
-RNN & 1.68 & 1.26 \\
-LSTM & \textbf{1.54} & \textbf{1.08} \\
+Random Forest Regressor & 0.1393 & 0.1712\\
+XGBoost Regressor & 0.1541 & 0.1870\\
+KNN Regressor & 0.1724 & 0.2054\\
+MLP & 0.0223 & 0.0302\\
+RNN & 0.0219 & 0.0296\\
+LSTM & \textbf{0.0195} & \textbf{0.0268}\\
 \hline
 \end{tabular}
-\caption{Comparaison des performances des modèles de régression (métriques moyennes sur l'ensemble des entreprises analysées)}
-\label{tab:regression_perf}
+\caption{Comparaison des performances moyennes des modèles de régression (Machine Learning vs Deep Learning)}
+\label{tab:regression_results}
 \end{table}
 
-Les conclusions clés sont les suivantes :
+Ces résultats montrent clairement que :
 \begin{itemize}
-    \item Les modèles basés sur des arbres (XGBoost, Random Forest) offrent une robustesse notable et d'excellentes performances sur les séries temporelles modérément bruitées.
-    \item Parmi les approches deep learning, le réseau LSTM, en raison de sa capacité à capter les dépendances temporelles longues, s'est montré supérieur sur les séries plus complexes ou volatiles.
+    \item Le modèle \textbf{LSTM}, grâce à sa capacité à capturer des dépendances temporelles complexes, affiche les meilleures performances globales.
+    \item Parmi les méthodes classiques, le \textbf{Random Forest} se distingue par ses performances robustes et relativement proches de celles des modèles Deep Learning.
+    \item Le modèle \textbf{KNN}, malgré sa simplicité, obtient des résultats moins précis en raison de sa difficulté à généraliser efficacement sur les séries temporelles financières.
 \end{itemize}
 
-\begin{comment}
-La figure~\ref{fig:regression_pred} illustre clairement la capacité du modèle LSTM à prédire avec précision les valeurs de clôture sur un exemple concret.
+Des visualisations graphiques ont permis de vérifier qualitativement la précision des modèles en comparant les prédictions et les valeurs réelles sur les données test (voir figure~\ref{fig:regression_comparison}).
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{exemple_regression_lstm.png}
-    \caption{Exemple de prédictions réalisées par le modèle LSTM (courbe réelle vs prédite)}
-    \label{fig:regression_pred}
+    \includegraphics[width=\textwidth]{Apple copy.png}
+    \caption{Comparaison visuelle des prédictions d'Apple par rapport aux valeurs réelles.}
+    \label{fig:regression_comparison}
 \end{figure}
-\end{comment}
-Ces prédictions quantitatives enrichissent considérablement l’analyse globale du pipeline et sont intégrées au signal agrégé final, avec une pondération dépendant de leur précision historique.
+
+\subsection*{Choix du modèle pour le pipeline global}
+
+Compte tenu des résultats obtenus, le modèle LSTM a été retenu pour l'intégration finale dans le pipeline global, en raison de sa précision supérieure et de sa capacité à capturer les dynamiques temporelles complexes des marchés financiers.
+
+\subsection*{Perspectives d’amélioration}
+
+Plusieurs pistes prometteuses pourraient encore être explorées pour renforcer la qualité prédictive :
+
+\begin{itemize}
+    \item Intégration d'indicateurs techniques avancés ou de variables macroéconomiques pour enrichir le contexte prédictif,
+    \item Tests de modèles hybrides combinant architectures LSTM et convolutives (CNN) pour capturer simultanément tendances locales et globales,
+    \item Mise en place d'une stratégie d’itération multi-jours afin d’affiner les prédictions à horizon plus long (J+2, J+3, etc.).
+\end{itemize}
 
 
 \section{Analyse de sentiments sur news financières}
 
 \subsection*{Objectif}
 
-L'objectif est d'intégrer des informations qualitatives issues des actualités économiques, en classifiant le sentiment associé à chaque news récente sur les entreprises étudiées. Le sentiment (positif, neutre ou négatif) est utilisé comme signal complémentaire aux autres analyses quantitatives du pipeline.
+L'objectif est d'intégrer des signaux qualitatifs extraits des actualités financières pour enrichir les décisions d’investissement. Cette analyse consiste à classifier automatiquement le sentiment associé à chaque news (positif, neutre, négatif) et à visualiser l'impact potentiel de ces sentiments sur les variations horaires des prix des actions.
 
 \subsection*{Méthodes utilisées}
 
-Nous avons utilisé une approche basée sur le modèle \textbf{FinBERT}, spécifiquement entraîné sur des corpus financiers. Un fine-tuning a été réalisé en utilisant les datasets annotés suivants, issus de la plateforme HuggingFace :
+Cette analyse repose sur un modèle de type BERT spécialisé pour les données financières, le modèle \textbf{FinBERT} (\texttt{ProsusAI}), que nous avons fine-tuné afin d'améliorer ses performances sur un corpus spécifique d'actualités financières. Le processus suivi est détaillé ci-dessous :
+
+\paragraph{Fine-tuning du modèle FinBERT (TP7) :}  
+Pour ce fine-tuning, deux jeux de données annotés issus de la plateforme HuggingFace ont été utilisés :
 \begin{itemize}
-    \item \texttt{zeroshot/twitter-financial-news-sentiment} (tweets financiers)
-    \item \texttt{nickmuchi/financial-classification} (phrases issues de news financières)
+    \item \texttt{zeroshot/twitter-financial-news-sentiment} (tweets financiers),
+    \item \texttt{nickmuchi/financial-classification} (phrases financières provenant de news).
 \end{itemize}
 
-Le fine-tuning a été effectué avec les paramètres suivants :
+La procédure de fine-tuning comportait les paramètres suivants :
 \begin{itemize}
-    \item Nombre d'epochs : 3
-    \item Batch size : 16
-    \item Tokenizer : \texttt{ProsusAI/finbert}
-    \item Weight decay : 0.01
+    \item Nombre d'epochs : 3,
+    \item Batch size : 16,
+    \item Optimizer : Adam, avec un weight decay de 0.01,
+    \item Tokenisation avec padding et truncation pour gérer la longueur variable des textes.
 \end{itemize}
 
-Après le fine-tuning, nous avons utilisé ce modèle pour classifier les actualités scrappées via l'API NewsAPI. Pour chaque news, nous avons concaténé le titre et la description avant classification.
+\paragraph{Classification des news et alignement temporel (TP8) :}  
+À partir des actualités financières récupérées quotidiennement, nous avons effectué :
+\begin{itemize}
+    \item Une extraction et préparation des textes (concaténation titres + descriptions),
+    \item Une conversion et alignement précis des timestamps aux heures d’ouverture des marchés américains (timezone de New York),
+    \item Une classification des sentiments (positif, neutre, négatif) à l’aide du modèle FinBERT fine-tuné.
+\end{itemize}
 
-Un point critique dans notre méthodologie a été l'alignement précis des timestamps des news avec les horaires du marché américain (New York). Les news publiées hors des horaires de marché, durant les weekends ou jours fériés américains, ont été ajustées afin d'être associées au dernier horaire de marché valide.
+\paragraph{Visualisation et intégration dans le pipeline global :}  
+Les résultats ont été visualisés en comparant graphiquement les sentiments prédits aux variations horaires réelles des prix des actions (voir exemple figure~\ref{fig:sentiment_visualization}). De plus, le sentiment global quotidien est agrégé par entreprise pour enrichir le pipeline principal et fournir un indicateur synthétique quotidien.
 
 \subsection*{Résultats et interprétations}
 
-Nous avons généré des visualisations permettant d'analyser graphiquement l'effet potentiel des sentiments sur les prix des actions. Comme illustré par la figure~\ref{fig:sentiments}, il est fréquent d'observer une réaction cohérente des marchés suite à un flux important de sentiments négatifs ou positifs.
-
-Les résultats mettent en évidence que :
+Les visualisations générées permettent d’observer plusieurs tendances significatives :
 \begin{itemize}
-    \item Les périodes de news négatives coïncident souvent avec des périodes de baisse ou de correction des prix.
-    \item Le modèle fine-tuné FinBERT offre des prédictions robustes, adaptées au contexte financier spécifique.
-    \item Certaines entreprises montrent une plus grande sensibilité aux changements de sentiment, indiquant la nécessité d'une pondération différenciée lors de l'intégration de ce signal dans l'agrégation finale.
+    \item Les périodes marquées par des sentiments globalement négatifs précèdent fréquemment des baisses de prix notables.
+    \item À l’inverse, une accumulation de news positives est souvent associée à des hausses de prix dans les heures suivantes.
+    \item Le modèle FinBERT fine-tuné spécifiquement pour les données financières fournit des résultats plus cohérents et précis que les modèles généralistes, confirmant la pertinence du fine-tuning effectué en TP7.
 \end{itemize}
+
+La figure~\ref{fig:sentiment_visualization} illustre clairement la corrélation entre les sentiments prédits et les mouvements de prix d'une action typique sur une période donnée :
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{Model Comparison.png}
-    \caption{Exemple de visualisation du sentiment prédit sur les actualités financières superposé au cours de l'action.}
-    \label{fig:sentiments}
+    \caption{Exemple de visualisation des sentiments prédits avec évolution horaire du prix (FinBERT fine-tuné)}
+    \label{fig:sentiment_visualization}
 \end{figure}
 
+\subsection*{Utilisation dans le pipeline global}
 
-\section{Stratégie d’agrégation}
+Le sentiment global quotidien calculé par entreprise est intégré au rapport généré quotidiennement par notre pipeline global. Ce rapport présente les trois actualités les plus récentes ainsi qu’un indicateur qualitatif de sentiment global, enrichissant la prise de décision grâce à une perspective médiatique qualitative.
 
-\subsection*{Objectif}
+\subsection*{Perspectives d'amélioration}
 
-L’objectif de cette dernière étape est de regrouper l’ensemble des signaux produits par les différentes briques du pipeline (clustering, classification, régression, analyse de sentiments) afin de générer, pour chaque entreprise, une recommandation finale claire et justifiée : \textit{Buy}, \textit{Hold} ou \textit{Sell}. L’enjeu réside ici dans la capacité à combiner de manière cohérente des informations hétérogènes, tant sur le plan du format (quantitatif vs. qualitatif) que de la temporalité (valeurs instantanées vs. agrégées).
+Plusieurs améliorations sont envisageables pour renforcer cette analyse :
+\begin{itemize}
+    \item Tester et comparer d'autres modèles pré-entraînés spécialisés en finance,
+    \item Explorer des méthodes d'agrégation des sentiments plus sophistiquées (pondération selon l’importance de la news ou la crédibilité des sources),
+    \item Évaluer l’intégration d’autres sources d’informations financières (blogs spécialisés, réseaux sociaux financiers) pour enrichir l’analyse du sentiment.
+\end{itemize}
 
-\subsection*{Méthodes utilisées}
 
-Nous avons mis en place une stratégie d’agrégation pondérée, structurée en deux étapes :
+\section{Stratégie d’agrégation des signaux et recommandations finales}
 
-\begin{enumerate}
-  \item \textbf{Normalisation des signaux} : chaque brique produit un score sur une échelle comparable :
-  \begin{itemize}
-    \item Le score de classification est directement dérivé des probabilités de prédiction (\textit{buy}, \textit{hold}, \textit{sell}).
-    \item La régression est traduite en un score d’attractivité selon le rendement attendu à J+1.
-    \item L’analyse de sentiments fournit un score basé sur la proportion de news positives vs négatives récentes.
-    \item Le clustering sert de filtre de contexte : il permet de moduler les scores obtenus selon les dynamiques moyennes du groupe auquel appartient l’entreprise.
-  \end{itemize}
+\subsection*{Synthèse et objectifs}
 
-  \item \textbf{Calcul d’un score final} : un score global est calculé comme moyenne pondérée des signaux précédents. Les pondérations ont été déterminées empiriquement à partir de la qualité prédictive de chaque brique sur les données historiques :
+L’objectif final de notre pipeline est de combiner intelligemment l’ensemble des signaux produits par nos modules (ratios financiers, clustering, classification, régression et sentiment) afin de générer, pour chaque entreprise, une recommandation journalière simple, lisible et cohérente : \textbf{Buy}, \textbf{Hold}, ou \textbf{Sell}.
 
-  \[
-  \text{Score final} = \alpha \cdot \text{score}_{\text{classification}} + \beta \cdot \text{score}_{\text{régression}} + \gamma \cdot \text{score}_{\text{sentiment}}
-  \]
-  où $\alpha + \beta + \gamma = 1$. Des tests ont montré que les meilleurs résultats étaient obtenus avec une pondération légèrement supérieure pour la classification.
+\subsection*{Méthodologie d’agrégation}
 
-  Le score final est projeté sur une échelle discrète pour donner la recommandation :
-  \[
-  \text{Buy si score} > 0.6,\quad \text{Sell si score} < 0.4,\quad \text{Hold sinon}
-  \]
-\end{enumerate}
+Les étapes de traitement automatisées par notre script principal (\texttt{main.py}) sont les suivantes :
 
-\subsection*{Résultats et interprétations}
+\begin{itemize}
+    \item \textbf{Analyse des ratios fondamentaux} : scrapping et affichage des principaux indicateurs financiers pour chaque entreprise (PE ratio, ROE, etc.).
+    \item \textbf{Clustering K-Means} : affectation à un cluster de sociétés similaires pour contextualiser chaque entreprise.
+    \item \textbf{Classification Buy/Hold/Sell} : réalisée avec un modèle Random Forest, entraîné sur des données de rendements et indicateurs.
+    \item \textbf{Régression (prix à J+1)} : moyennée sur plusieurs modèles (XGBoost, RF, KNN, LSTM).
+    \item \textbf{Sentiment sur les actualités financières} : prédiction avec FinBERT fine-tuné et agrégation du sentiment moyen journalier.
+\end{itemize}
 
-L’agrégation des signaux permet de lisser les erreurs individuelles des modèles. Certaines entreprises reçoivent des signaux contradictoires (par exemple, un score de sentiment très positif mais une régression négative) : c’est justement dans ces cas-là que l’approche combinée prend tout son sens.
+\subsection*{Restitution dans le rapport final (HTML)}
 
-Les tests sur différentes périodes ont montré une stabilité encourageante des recommandations, et les simulations de stratégies simples (achat/vente selon les recommandations agrégées) permettent d’observer des gains comparables, voire légèrement supérieurs, à une stratégie passive.
+Toutes ces informations sont intégrées dans un rapport HTML généré automatiquement chaque jour. Pour chaque entreprise, on retrouve :
 
-Cette approche d’agrégation constitue donc un cadre pertinent pour la prise de décision, tout en restant modulable selon les objectifs spécifiques de l’utilisateur (profil de risque, horizon d’investissement, etc.).
+\begin{itemize}
+    \item Une carte avec les ratios clés,
+    \item Les entreprises les plus proches (via le clustering),
+    \item Le rendement journalier moyen,
+    \item La recommandation du jour (couleur : \textcolor{green}{Achat}, \textcolor{yellow}{Hold}, \textcolor{red}{Vente}),
+    \item La prédiction du prix du lendemain,
+    \item Les dernières actualités financières,
+    \item Le sentiment moyen associé aux news du jour.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{apple.png}
+    \caption{Extrait du rapport HTML généré pour l’entreprise \textit{Apple}.}
+    \label{fig:report_html}
+\end{figure}
+
+\subsection*{Impact de l’agrégation sur les recommandations}
+
+L’agrégation permet une robustesse accrue des recommandations, en :
+\begin{itemize}
+    \item atténuant les erreurs ponctuelles de certains modèles,
+    \item apportant une vision à la fois quantitative (régression, ratios) et qualitative (sentiments, clustering),
+    \item rendant la restitution intelligible pour un utilisateur final non expert (via le HTML).
+\end{itemize}
+
+\subsection*{Limites et améliorations futures}
+
+Parmi les pistes futures :
+\begin{itemize}
+    \item pondération dynamique des signaux (par ex. donner plus de poids au sentiment en période volatile),
+    \item intégration de nouvelles sources d’informations (macroéconomie, ESG, etc.),
+    \item backtesting systématique du pipeline sur une période historique longue.
+\end{itemize}
 
 \section{Conclusion}
 
@@ -441,7 +498,7 @@ Plusieurs pistes pourraient être envisagées pour prolonger ce travail. Parmi e
 
 Ce projet s’inscrit ainsi dans une démarche de data science appliquée à la finance, mêlant rigueur analytique et pragmatisme opérationnel. Il constitue une base solide pour de futures explorations dans le domaine de la prise de décision automatisée.
 
-
+\printbibliography
 
 \end{document}
 

@@ -79,6 +79,8 @@ def run_preprocessing_pipeline(data_folder="data/Companies_Historical_Data",
     os.makedirs(output_folder, exist_ok=True)
     file_list = [f for f in os.listdir(data_folder) if f.endswith(".csv")]
 
+    # Dictionnaire pour stocker les scores de chaque modèle
+    all_scores = {}
     for filename in file_list:
         name = os.path.splitext(filename)[0]
         file_path = os.path.join(data_folder, filename)
@@ -94,6 +96,11 @@ def run_preprocessing_pipeline(data_folder="data/Companies_Historical_Data",
         print(f"\n{name} - Résultats :")
         for model_name, metrics in results.items():
             print(f"{model_name} - MAE: {metrics['MAE']:.4f}, RMSE: {metrics['RMSE']:.4f}")
+            # Stocker les scores pour la moyenne
+            if model_name not in all_scores:
+                all_scores[model_name] = {'MAE': [], 'RMSE': []}
+            all_scores[model_name]['MAE'].append(metrics['MAE'])
+            all_scores[model_name]['RMSE'].append(metrics['RMSE'])
 
         # Visualisation
         for model_name, model in models.items():
@@ -108,6 +115,12 @@ def run_preprocessing_pipeline(data_folder="data/Companies_Historical_Data",
         np.save(os.path.join(output_folder, f"{name}_y_test.npy"), y_test)
         joblib.dump(scaler, os.path.join(output_folder, f"{name}_scaler.pkl"))
 
+    # Calcul et affichage des moyennes
+    print("\nMoyenne des MAE et RMSE pour chaque modèle :")
+    for model_name, scores in all_scores.items():
+        mean_mae = np.mean(scores['MAE'])
+        mean_rmse = np.mean(scores['RMSE'])
+        print(f"{model_name} - MAE moyen: {mean_mae:.4f}, RMSE moyen: {mean_rmse:.4f}")
 
 def predict(company_name, model_folder="models/TP4"):
     import os

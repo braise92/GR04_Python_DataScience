@@ -1,0 +1,127 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{ding2015}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=ab054adc7505a31e92254902943287ac}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Xiaowu},
+           giveni={X\bibinitperiod}}}%
+        {{hash=b8238061b3c805be2a30dd55bb11fb21}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=df4100f4c9320162410d3ddcc9257d55}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Ting},
+           giveni={T\bibinitperiod}}}%
+        {{hash=e80300c3465b1ca764a07964ef326716}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{fc6793b4752db95de6777a475b437e42}
+      \strng{fullhash}{96e585889f43498dcf0caad859b3881c}
+      \strng{fullhashraw}{96e585889f43498dcf0caad859b3881c}
+      \strng{bibnamehash}{fc6793b4752db95de6777a475b437e42}
+      \strng{authorbibnamehash}{fc6793b4752db95de6777a475b437e42}
+      \strng{authornamehash}{fc6793b4752db95de6777a475b437e42}
+      \strng{authorfullhash}{96e585889f43498dcf0caad859b3881c}
+      \strng{authorfullhashraw}{96e585889f43498dcf0caad859b3881c}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IJCAI}
+      \field{title}{Deep Learning for Event-Driven Stock Prediction}
+      \field{year}{2015}
+    \endentry
+    \entry{wu2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=c84333257e5fef7e25ef4f7a4111077c}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=8afab9bdc9b292debbeb136dfd97036c}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=66d548e0e670e107fc4a80dc0c3825b3}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{fullhash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{fullhashraw}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{bibnamehash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{authorbibnamehash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{authornamehash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{authorfullhash}{da02c746eedefdcce1dc3085b81c76c9}
+      \strng{authorfullhashraw}{da02c746eedefdcce1dc3085b81c76c9}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{title}{A hybrid stock market prediction model based on GNG and reinforcement learning}
+      \field{year}{2023}
+    \endentry
+    \entry{xu2018}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=b507e67236cc5f6e9caaf12baba5aee9}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Yumo},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=e73233352c261fd69883c5f0f01f4218}{%
+           family={Cohen},
+           familyi={C\bibinitperiod},
+           given={William\bibnamedelima W.},
+           giveni={W\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{fullhash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{fullhashraw}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{bibnamehash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{authorbibnamehash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{authornamehash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{authorfullhash}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \strng{authorfullhashraw}{8a7dde2cac7b60979a4782515f9a2ca8}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics}
+      \field{title}{Stock Movement Prediction from Tweets and Historical Prices}
+      \field{year}{2018}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
