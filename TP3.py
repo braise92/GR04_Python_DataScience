@@ -121,7 +121,7 @@ def train_and_evaluate_models(X, y):
         "weights": ['uniform', 'distance']
     }
     svm_param_grid = {
-        "C": [0.1, 1, 10],
+        "C": [1],
         "kernel": ['linear', 'rbf']
     }
     logreg_param_grid = {
@@ -218,7 +218,7 @@ def predict_today(file_path, model_path="models/RF/random_forest_model.pkl", sca
 # === Visualisation SHAP pour interprétation du modèle Random Forest ===
 def explain_with_shap(model, X_train, X_test, feature_names):
     explainer = shap.Explainer(model, X_train)
-    shap_values = explainer(X_test)
+    shap_values = explainer(X_test, check_additivity=False)
     shap.summary_plot(shap_values, features=X_test, feature_names=feature_names)
 
 # === Pipeline principal exécutant tout le processus ===

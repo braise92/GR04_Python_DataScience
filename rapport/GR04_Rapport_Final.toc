@@ -6,8 +6,8 @@
 \contentsline {paragraph}{Profils de risque :}{3}{section.3}%
 \contentsline {paragraph}{Corrélations des rendements journaliers :}{4}{section.3}%
 \contentsline {paragraph}{Clustering direct sur profils de rendements :}{4}{section.3}%
-\contentsline {section}{\numberline {4}Classification “Buy”, “Hold”, “Sell”}{5}{section.4}%
-\contentsline {section}{\numberline {5}Prédiction de rendement à J+1}{6}{section.5}%
-\contentsline {section}{\numberline {6}Analyse de sentiments sur news financières}{8}{section.6}%
-\contentsline {section}{\numberline {7}Stratégie d’agrégation}{9}{section.7}%
-\contentsline {section}{\numberline {8}Conclusion}{10}{section.8}%
+\contentsline {section}{\numberline {4}Classification « Buy », « Hold », « Sell »}{5}{section.4}%
+\contentsline {section}{\numberline {5}Prédiction de rendement à J+1}{7}{section.5}%
+\contentsline {section}{\numberline {6}Analyse de sentiments sur news financières}{9}{section.6}%
+\contentsline {section}{\numberline {7}Stratégie d’agrégation}{10}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{11}{section.8}%

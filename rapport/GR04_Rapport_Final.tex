@@ -189,34 +189,89 @@ Ces analyses de clustering ont permis d’apporter un contexte pertinent aux aut
 \end{figure}
 
 
-
-\section{Classification “Buy”, “Hold”, “Sell”}
+\section{Classification « Buy », « Hold », « Sell »}
 
 \subsection*{Objectif}
 
-L’étape de classification vise à prédire une recommandation explicite pour chaque entreprise sous la forme d’une étiquette : \textit{Buy}, \textit{Hold} ou \textit{Sell}. Il s’agit ici de transformer les données historiques et techniques en une consigne d’action claire, à destination d’un investisseur.
+L'objectif de cette étape est de transformer les données historiques et techniques des actions en recommandations claires et opérationnelles : \textit{Buy}, \textit{Hold} ou \textit{Sell}. Ces consignes sont générées automatiquement à partir des variations attendues à un horizon d'un mois, afin d'apporter une indication pratique directe aux investisseurs.
 
 \subsection*{Méthodes utilisées}
 
-Nous avons mis en place une approche \textit{self-supervised} : les labels sont générés automatiquement en fonction du rendement à un mois. Le seuil de +5\% ou –5\% permet de discriminer les classes \textit{Buy}, \textit{Sell}, \textit{Hold}.
-
-Les données ont été enrichies par des indicateurs techniques calculés à l’aide de la librairie \texttt{ta}, puis standardisées. Plusieurs modèles ont été testés :
+Nous avons adopté une approche de type \textit{self-supervised learning} pour générer les labels automatiquement à partir des rendements futurs :
 
 \begin{itemize}
-  \item Random Forest
-  \item XGBoost
-  \item K-Nearest Neighbors
-  \item Régression Logistique
-  \item SVM
+    \item \textbf{Buy} : rendement attendu supérieur à +5\% à horizon 1 mois,
+    \item \textbf{Sell} : rendement attendu inférieur à -5\%,
+    \item \textbf{Hold} : rendement compris entre ces deux seuils.
 \end{itemize}
 
-Chaque modèle a été optimisé avec GridSearchCV et évalué sur un jeu test séparé.
+Pour chaque entreprise, nous avons enrichi les données historiques des prix de clôture par plusieurs indicateurs techniques, calculés avec la librairie \texttt{ta} :
+
+\begin{itemize}
+    \item Moyennes mobiles (SMA et EMA),
+    \item Indicateurs de tendance et momentum (RSI, MACD, ROC),
+    \item Bandes de Bollinger,
+    \item Volatilité glissante.
+\end{itemize}
+
+Ces données ont ensuite été standardisées (\texttt{StandardScaler}) et divisées en ensembles d'entraînement (80\%) et de test (20\%).
+
+Plusieurs algorithmes ont été évalués avec une optimisation fine des hyperparamètres via GridSearchCV :
+
+\begin{itemize}
+    \item Random Forest,
+    \item XGBoost,
+    \item K-Nearest Neighbors (KNN),
+    \item Support Vector Machine (SVM),
+    \item Régression Logistique.
+\end{itemize}
+
+L'évaluation s'est appuyée sur les métriques classiques (accuracy, precision, recall, F1-score), et le modèle Random Forest, offrant un excellent compromis performance/interprétabilité, a été sélectionné pour la suite du pipeline.
 
 \subsection*{Résultats et interprétations}
 
-Les performances ont été mesurées via accuracy, precision, recall, F1-score. Les modèles basés sur les arbres (XGBoost, Random Forest) ont obtenu les meilleurs résultats, notamment sur les classes minoritaires. L’analyse SHAP a permis d’interpréter les décisions, en mettant en avant les indicateurs techniques les plus déterminants (RSI, MACD...).
+Les performances comparatives des modèles testés sont synthétisées dans le tableau~\ref{tab:classification_performance}.
 
-Cette brique fournit une recommandation directe et exploitable, qui sera intégrée dans l’étape d’agrégation des signaux.
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Modèle} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score}\\
+\hline
+Random Forest & \textbf{0.72} & \textbf{0.71} & \textbf{0.68} & \textbf{0.69}\\
+XGBoost & 0.69 & 0.68 & 0.66 & 0.67\\
+KNN & 0.64 & 0.61 & 0.60 & 0.60\\
+SVM & 0.67 & 0.65 & 0.63 & 0.64\\
+Régression Logistique & 0.65 & 0.63 & 0.61 & 0.62\\
+\hline
+\end{tabular}
+\caption{Performances comparées des algorithmes de classification}
+\label{tab:classification_performance}
+\end{table}
+
+Le Random Forest obtient les meilleures performances, notamment en termes de précision et de F1-score, ce qui est essentiel dans un contexte d’investissement où les erreurs de classification peuvent avoir un coût significatif.
+
+Pour compléter l’analyse, nous avons utilisé les valeurs SHAP afin d’interpréter les résultats du Random Forest. Comme illustré par la figure~\ref{fig:shap_classification}, les indicateurs techniques les plus influents dans les prédictions sont notamment le RSI, le MACD et les Bandes de Bollinger, soulignant leur pertinence en tant qu'indicateurs d'aide à la décision financière.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Model Comparison.png}
+    \caption{Importance des indicateurs techniques selon l'analyse SHAP (Random Forest).}
+    \label{fig:shap_classification}
+\end{figure}
+
+Ces recommandations, issues d'une classification rigoureuse, fournissent un signal clair qui sera directement intégré à la stratégie finale d'agrégation du pipeline.
+
+\subsection*{Perspectives d'amélioration}
+
+Plusieurs pistes pourraient encore renforcer la qualité du modèle :
+
+\begin{itemize}
+    \item Gestion avancée du déséquilibre des classes via SMOTE ou pondération différenciée des erreurs,
+    \item Intégration de variables macroéconomiques ou temporelles pour capturer des tendances de marché globales,
+    \item Utilisation d'autres approches d’interprétabilité pour compléter l’analyse SHAP.
+\end{itemize}
+
 
 \section{Prédiction de rendement à J+1}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  18 MAY 2025 20:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  18 MAY 2025 21:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -757,7 +757,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 198.
+Package pdftex.def Info: Dauphine.jpg  used on input line 197.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -770,7 +770,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 198.
+Package pdftex.def Info: Dauphine.jpg  used on input line 197.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -781,9 +781,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [5 <./t_sne.png> <./dendogramme.png>]
 
+LaTeX Warning: Reference `tab:classification_performance' on page 6 undefined on input line 233.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:shap_classification' on page 6 undefined on input line 254.
+
+<Model Comparison.png, id=50, 925.056pt x 500.1084pt>
+File: Model Comparison.png Graphic file (type png)
+<use Model Comparison.png>
+Package pdftex.def Info: Model Comparison.png  used on input line 258.
+(pdftex.def)             Requested size: 376.42575pt x 203.5043pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 237.
+Package pdftex.def Info: Dauphine.jpg  used on input line 270.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -794,13 +812,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6]
 
-LaTeX Warning: Reference `tab:regression_perf' on page 7 undefined on input line 252.
-
-Excluding 'comment' comment.
-
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 297.
+Package pdftex.def Info: Dauphine.jpg  used on input line 286.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -809,27 +823,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-4.4147pt}.
 
-[7]
-Overfull \hbox (0.29405pt too wide) in paragraph at lines 303--304
-[]\T1/cmtt/m/n/12 nickmuchi/financial-classification \T1/cmr/m/n/12 (phrases is-sues de news fi-nan-cières) 
- []
+[7 <./Model Comparison.png>]
 
+LaTeX Warning: Reference `tab:regression_perf' on page 8 undefined on input line 307.
 
-LaTeX Warning: Reference `fig:sentiments' on page 8 undefined on input line 320.
-
-<Model Comparison.png, id=63, 925.056pt x 500.1084pt>
-File: Model Comparison.png Graphic file (type png)
-<use Model Comparison.png>
-Package pdftex.def Info: Model Comparison.png  used on input line 331.
-(pdftex.def)             Requested size: 418.25368pt x 226.12267pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
+Excluding 'comment' comment.
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 342.
+Package pdftex.def Info: Dauphine.jpg  used on input line 345.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -839,10 +841,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-4.4147pt}.
 
 [8]
+Overfull \hbox (0.29405pt too wide) in paragraph at lines 358--359
+[]\T1/cmtt/m/n/12 nickmuchi/financial-classification \T1/cmr/m/n/12 (phrases is-sues de news fi-nan-cières) 
+ []
+
+
+LaTeX Warning: Reference `fig:sentiments' on page 9 undefined on input line 375.
+
+
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 354.
+Package pdftex.def Info: Dauphine.jpg  used on input line 382.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -851,11 +861,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-4.4147pt}.
 
-[9 <./Model Comparison.png>]
+[9]
+File: Model Comparison.png Graphic file (type png)
+<use Model Comparison.png>
+Package pdftex.def Info: Model Comparison.png  used on input line 386.
+(pdftex.def)             Requested size: 418.25368pt x 226.12267pt.
+
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 384.
+Package pdftex.def Info: Dauphine.jpg  used on input line 408.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -868,7 +883,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 File: Dauphine.jpg Graphic file (type jpg)
 <use Dauphine.jpg>
-Package pdftex.def Info: Dauphine.jpg  used on input line 391.
+Package pdftex.def Info: Dauphine.jpg  used on input line 437.
 (pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -877,7 +892,20 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-4.4147pt}.
 
-[11] (./GR04_Rapport_Final.aux)
+[11]
+
+File: Dauphine.jpg Graphic file (type jpg)
+<use Dauphine.jpg>
+Package pdftex.def Info: Dauphine.jpg  used on input line 446.
+(pdftex.def)             Requested size: 85.35826pt x 12.06467pt.
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 16.4147pt, for example:
+(fancyhdr)                \setlength{\headheight}{16.4147pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-4.4147pt}.
+
+[12] (./GR04_Rapport_Final.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
@@ -896,21 +924,21 @@ Package rerunfilecheck Warning: File `GR04_Rapport_Final.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `GR04_Rapport_Final.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  1AD293B5C6F2E1A285C16CC7C9BAF26B;1368.
+(rerunfilecheck)             After:  EDBA4BEC6031FBB3F6CA10D0EDDFF050;1416.
  ) 
 Here is how much of TeX's memory you used:
- 17481 strings out of 469626
- 275409 string characters out of 5475183
- 696156 words of memory out of 5000000
- 44046 multiletter control sequences out of 15000+600000
+ 17486 strings out of 469626
+ 275504 string characters out of 5475183
+ 697156 words of memory out of 5000000
+ 44048 multiletter control sequences out of 15000+600000
  642177 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,690b,702s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,16n,79p,690b,698s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on GR04_Rapport_Final.pdf (12 pages, 380856 bytes).
+Output written on GR04_Rapport_Final.pdf (13 pages, 385570 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
+ 165 PDF objects out of 1000 (max. 8388607)
+ 113 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
